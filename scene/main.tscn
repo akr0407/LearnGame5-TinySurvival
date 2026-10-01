@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://c8j2qc5dcuu0q"]
+
+[ext_resource type="Texture2D" uid="uid://buibpeob4s2f6" path="res://icon.svg" id="1_itxqv"]
+[ext_resource type="Script" uid="uid://bfku0lvss0jjd" path="res://scripts/player.gd" id="1_v0l8b"]
+[ext_resource type="Script" uid="uid://dsanode6i0ar1" path="res://scripts/main.gd" id="1_wp4xf"]
+[ext_resource type="PackedScene" uid="uid://b3eq7grln7b2j" path="res://scene/tree.tscn" id="4_brvut"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ro8iu"]
+radius = 60.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0l8b"]
+size = Vector2(800, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wp4xf"]
+size = Vector2(800, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_brvut"]
+size = Vector2(20, 500)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ha60"]
+size = Vector2(20, 500)
+
+[node name="Main" type="Node2D" unique_id=100466260]
+script = ExtResource("1_wp4xf")
+tree_scene = ExtResource("4_brvut")
+
+[node name="Ground" type="ColorRect" parent="." unique_id=1966740288]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 800.0
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.39279988, 0.64731526, 0.7386301, 1)
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1961410978]
+position = Vector2(400, 250)
+script = ExtResource("1_v0l8b")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1206095877]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_itxqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=55913917]
+shape = SubResource("CircleShape2D_hs3mr")
+
+[node name="InteractionArea" type="Area2D" parent="Player" unique_id=1862825898]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/InteractionArea" unique_id=1940122643]
+shape = SubResource("CircleShape2D_ro8iu")
+
+[node name="WorldBounds" type="StaticBody2D" parent="." unique_id=1863834518]
+
+[node name="Top" type="CollisionShape2D" parent="WorldBounds" unique_id=1865980563]
+position = Vector2(400, 0)
+shape = SubResource("RectangleShape2D_v0l8b")
+
+[node name="Bottom" type="CollisionShape2D" parent="WorldBounds" unique_id=914523718]
+position = Vector2(400, 500)
+shape = SubResource("RectangleShape2D_wp4xf")
+
+[node name="Left" type="CollisionShape2D" parent="WorldBounds" unique_id=680048618]
+position = Vector2(0, 250)
+shape = SubResource("RectangleShape2D_brvut")
+
+[node name="Right" type="CollisionShape2D" parent="WorldBounds" unique_id=720423861]
+position = Vector2(800, 250)
+shape = SubResource("RectangleShape2D_0ha60")
+
+[node name="Tree" parent="." unique_id=441167950 instance=ExtResource("4_brvut")]
+position = Vector2(200, 150)
+
+[node name="Tree2" parent="." unique_id=1141317290 instance=ExtResource("4_brvut")]
+position = Vector2(500, 150)
+
+[node name="Tree3" parent="." unique_id=478629644 instance=ExtResource("4_brvut")]
+position = Vector2(300, 150)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1602719782]
+
+[node name="WoodLabel" type="Label" parent="UI" unique_id=12089105]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 71.0
+offset_bottom = 31.0
+text = "Wood: 0"
+
+[node name="TreeRespawnTimer" type="Timer" parent="." unique_id=534813527]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="body_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_exited"]
+[connection signal="timeout" from="TreeRespawnTimer" to="." method="_on_tree_spawn_timer_timeout"]
