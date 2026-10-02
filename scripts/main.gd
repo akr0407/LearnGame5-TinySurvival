@@ -2,7 +2,11 @@ extends Node2D
 
 @export var tree_scene: PackedScene
 
-var wood = 0
+var resources = {
+	"wood": 0,
+	"stone": 0,
+	"fiber": 0
+}
 var tree_spawn_position = Vector2(200, 150)
 var tree_respawn_positions = []
 
@@ -16,7 +20,7 @@ func _process(_delta: float) -> void:
 	pass
 
 func update_wood_label() -> void:
-	$UI/WoodLabel.text = "Wood: " + str(wood)
+	$UI/WoodLabel.text = "Wood: " + str(resources["wood"])
 
 
 func _on_tree_spawn_timer_timeout() -> void:

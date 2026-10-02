@@ -27,7 +27,7 @@ func _physics_process(_delta: float) -> void:
 		if nearby_object != null:
 			print("Interacting with ", nearby_object)
 			if nearby_object.harvest():
-				get_parent().wood += 1
+				get_parent().resources["wood"] += 1
 				get_parent().update_wood_label()
 				get_parent().respawn_tree(nearby_object.spawn_position)
 				print("Wood: ", get_parent().wood)
