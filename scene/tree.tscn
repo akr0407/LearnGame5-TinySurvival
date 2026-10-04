@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://b3eq7grln7b2j"]
 
 [ext_resource type="Script" uid="uid://e3wi15ak41sy" path="res://scripts/tree.gd" id="1_lutej"]
-[ext_resource type="Texture2D" uid="uid://buibpeob4s2f6" path="res://icon.svg" id="2_214j1"]
+[ext_resource type="Texture2D" uid="uid://b6br1xc66gnxo" path="res://assets/objects.png" id="2_lutej"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ha60"]
+atlas = ExtResource("2_lutej")
+region = Rect2(0, 81, 48, 58)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kmsdu"]
 radius = 32.0
@@ -10,8 +14,7 @@ radius = 32.0
 script = ExtResource("1_lutej")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=486176159]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_214j1")
+texture = SubResource("AtlasTexture_0ha60")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1015478538]
 shape = SubResource("CircleShape2D_kmsdu")

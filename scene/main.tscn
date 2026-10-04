@@ -3,7 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://buibpeob4s2f6" path="res://icon.svg" id="1_itxqv"]
 [ext_resource type="Script" uid="uid://bfku0lvss0jjd" path="res://scripts/player.gd" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://dsanode6i0ar1" path="res://scripts/main.gd" id="1_wp4xf"]
+[ext_resource type="PackedScene" uid="uid://5opvdmwvi3kd" path="res://scene/campfire.tscn" id="3_4j5ol"]
 [ext_resource type="PackedScene" uid="uid://b3eq7grln7b2j" path="res://scene/tree.tscn" id="4_brvut"]
+[ext_resource type="PackedScene" uid="uid://bar18dfcfbt7b" path="res://scene/stone.tscn" id="5_0ha60"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
 radius = 32.0
@@ -26,6 +28,7 @@ size = Vector2(20, 500)
 [node name="Main" type="Node2D" unique_id=100466260]
 script = ExtResource("1_wp4xf")
 tree_scene = ExtResource("4_brvut")
+campfire_scene = ExtResource("3_4j5ol")
 
 [node name="Ground" type="ColorRect" parent="." unique_id=1966740288]
 anchors_preset = 8
@@ -82,6 +85,15 @@ position = Vector2(500, 150)
 [node name="Tree3" parent="." unique_id=478629644 instance=ExtResource("4_brvut")]
 position = Vector2(300, 150)
 
+[node name="Stone" parent="." unique_id=218330456 instance=ExtResource("5_0ha60")]
+position = Vector2(200, 264)
+
+[node name="Stone2" parent="." unique_id=1817447118 instance=ExtResource("5_0ha60")]
+position = Vector2(200, 360)
+
+[node name="Stone3" parent="." unique_id=2126527269 instance=ExtResource("5_0ha60")]
+position = Vector2(88, 264)
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=1602719782]
 
 [node name="WoodLabel" type="Label" parent="UI" unique_id=12089105]
@@ -91,10 +103,33 @@ offset_right = 71.0
 offset_bottom = 31.0
 text = "Wood: 0"
 
+[node name="StoneLabel" type="Label" parent="UI" unique_id=1982734661]
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 71.0
+offset_bottom = 55.0
+text = "Stone: 0"
+
+[node name="CraftButton" type="Button" parent="UI" unique_id=1604173022]
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 63.0
+offset_bottom = 95.0
+text = "Craft"
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=582749871]
+offset_left = 128.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 43.0
+value = 100.0
+show_percentage = false
+
 [node name="TreeRespawnTimer" type="Timer" parent="." unique_id=534813527]
 wait_time = 5.0
 one_shot = true
 
 [connection signal="body_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_exited"]
+[connection signal="pressed" from="UI/CraftButton" to="." method="_on_craft_button_pressed"]
 [connection signal="timeout" from="TreeRespawnTimer" to="." method="_on_tree_spawn_timer_timeout"]

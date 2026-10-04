@@ -1,12 +1,11 @@
 extends StaticBody2D
 
 var harvested = false
-var spawn_position = Vector2.ZERO
-var resource_type = "wood"
+var resource_type = "stone"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	spawn_position = position
+	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -16,8 +15,8 @@ func _process(_delta: float) -> void:
 func harvest() -> bool:
 	if harvested:
 		return false
-	
+		
 	harvested = true
-	print("Tree harvested ", harvested)
+	print("Stone harvested")
 	queue_free()
 	return true

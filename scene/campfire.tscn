@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://5opvdmwvi3kd"]
+
+[ext_resource type="Texture2D" uid="uid://b6br1xc66gnxo" path="res://assets/objects.png" id="1_7l430"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs3mr"]
+atlas = ExtResource("1_7l430")
+region = Rect2(160, 112, 32, 32)
+
+[node name="Campfire" type="Node2D" unique_id=1153632573]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=871783522]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_hs3mr")

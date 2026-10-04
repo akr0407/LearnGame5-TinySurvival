@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var tree_scene: PackedScene
+@export var campfire_scene: PackedScene
 
 var resources = {
 	"wood": 0,
@@ -22,6 +23,9 @@ func _process(_delta: float) -> void:
 func update_wood_label() -> void:
 	$UI/WoodLabel.text = "Wood: " + str(resources["wood"])
 
+func update_stone_label() -> void:
+	$UI/StoneLabel.text = "Stone: " + str(resources["stone"])
+
 
 func _on_tree_spawn_timer_timeout() -> void:
 	var respawn_position = tree_respawn_positions.pop_front()
@@ -39,3 +43,23 @@ func respawn_tree(spawn_position: Vector2) -> void:
 	if tree_respawn_positions.size() > 0:
 		$TreeRespawnTimer.start()
 		print("Respawn position: ", tree_respawn_positions)
+
+
+func _on_craft_button_pressed() -> void:
+	if resources["wood"] >= 3 and resources["stone"] >= 2:
+		resources["wood"] -= 3
+		resources["stone"] -= 2
+		
+		update_wood_label()
+		update_stone_label()
+		
+		var campfire = campfire_scene.instantiate()
+		add_child(campfire)
+		campfire.global_position = $Player.global_position
+		
+		print("campfire created")
+	else:
+		print("not enough resources")
+
+func update_health_bar(current_health: int) -> void:
+	$UI/HealthBar.value = current_health
