@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://5opvdmwvi3kd" path="res://scene/campfire.tscn" id="3_4j5ol"]
 [ext_resource type="PackedScene" uid="uid://b3eq7grln7b2j" path="res://scene/tree.tscn" id="4_brvut"]
 [ext_resource type="PackedScene" uid="uid://bar18dfcfbt7b" path="res://scene/stone.tscn" id="5_0ha60"]
+[ext_resource type="PackedScene" uid="uid://vtnadla0omuo" path="res://scene/food.tscn" id="7_p1hux"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
 radius = 32.0
@@ -29,6 +30,7 @@ size = Vector2(20, 500)
 script = ExtResource("1_wp4xf")
 tree_scene = ExtResource("4_brvut")
 campfire_scene = ExtResource("3_4j5ol")
+food_scene = ExtResource("7_p1hux")
 
 [node name="Ground" type="ColorRect" parent="." unique_id=1966740288]
 anchors_preset = 8
@@ -94,6 +96,12 @@ position = Vector2(200, 360)
 [node name="Stone3" parent="." unique_id=2126527269 instance=ExtResource("5_0ha60")]
 position = Vector2(88, 264)
 
+[node name="Food" parent="." unique_id=712021230 instance=ExtResource("7_p1hux")]
+position = Vector2(504, 248)
+
+[node name="Food2" parent="." unique_id=649977828 instance=ExtResource("7_p1hux")]
+position = Vector2(592, 248)
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=1602719782]
 
 [node name="WoodLabel" type="Label" parent="UI" unique_id=12089105]
@@ -110,11 +118,18 @@ offset_right = 71.0
 offset_bottom = 55.0
 text = "Stone: 0"
 
+[node name="FoodLabel" type="Label" parent="UI" unique_id=1642631039]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 64.0
+offset_bottom = 79.0
+text = "Food: 0"
+
 [node name="CraftButton" type="Button" parent="UI" unique_id=1604173022]
-offset_left = 16.0
-offset_top = 64.0
-offset_right = 63.0
-offset_bottom = 95.0
+offset_left = 136.0
+offset_top = 48.0
+offset_right = 183.0
+offset_bottom = 79.0
 text = "Craft"
 
 [node name="HealthBar" type="ProgressBar" parent="UI" unique_id=582749871]
@@ -125,11 +140,37 @@ offset_bottom = 43.0
 value = 100.0
 show_percentage = false
 
+[node name="HungerBar" type="ProgressBar" parent="UI" unique_id=483929884]
+offset_left = 304.0
+offset_top = 16.0
+offset_right = 472.0
+offset_bottom = 43.0
+value = 100.0
+show_percentage = false
+
+[node name="DayLabel" type="Label" parent="UI" unique_id=527674756]
+offset_left = 496.0
+offset_top = 8.0
+offset_right = 544.0
+offset_bottom = 31.0
+text = "Day: 1"
+
 [node name="TreeRespawnTimer" type="Timer" parent="." unique_id=534813527]
 wait_time = 5.0
 one_shot = true
 
+[node name="FoodRespawnTimer" type="Timer" parent="." unique_id=1770341359]
+wait_time = 5.0
+one_shot = true
+
+[node name="HungerTimer" type="Timer" parent="." unique_id=1827557403]
+wait_time = 5.0
+autostart = true
+
+[connection signal="area_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_area_entered"]
 [connection signal="body_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_exited"]
 [connection signal="pressed" from="UI/CraftButton" to="." method="_on_craft_button_pressed"]
 [connection signal="timeout" from="TreeRespawnTimer" to="." method="_on_tree_spawn_timer_timeout"]
+[connection signal="timeout" from="FoodRespawnTimer" to="." method="_on_food_respawn_timer_timeout"]
+[connection signal="timeout" from="HungerTimer" to="Player" method="_on_hunger_timer_timeout"]

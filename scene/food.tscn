@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://vtnadla0omuo"]
+
+[ext_resource type="Texture2D" uid="uid://b6br1xc66gnxo" path="res://assets/objects.png" id="1_a5fiw"]
+[ext_resource type="Script" uid="uid://bo1pu24l5061l" path="res://scripts/food.gd" id="1_vkmpk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hs3mr"]
+atlas = ExtResource("1_a5fiw")
+region = Rect2(61, 0, 19, 17)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_of57s"]
+radius = 32.0
+
+[node name="Food" type="Area2D" unique_id=712021230]
+script = ExtResource("1_vkmpk")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1421243036]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_hs3mr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1203180456]
+shape = SubResource("CircleShape2D_of57s")

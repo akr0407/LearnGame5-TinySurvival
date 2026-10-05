@@ -7,6 +7,8 @@ var nearby_object: Node2D = null
 
 var max_health = 100
 var health = 100
+var max_hunger = 100
+var hunger = 100
 
 func _physics_process(_delta: float) -> void:
 	var direction = Vector2.ZERO
@@ -28,6 +30,9 @@ func _physics_process(_delta: float) -> void:
 	
 	if Input.is_action_just_pressed("test_damage"):
 		take_damage(10)
+		
+	if Input.is_action_just_pressed("eat"):
+		eat()
 	
 	if Input.is_action_just_pressed("interact"):
 		if nearby_object != null:
@@ -47,6 +52,10 @@ func _physics_process(_delta: float) -> void:
 					
 				if resource_type == "stone":
 					get_parent().update_stone_label()
+				
+				if resource_type == "food":
+					get_parent().update_food_label()
+					get_parent().respawn_food(nearby_object.spawn_position)
 		
 func _on_interaction_area_body_entered(body: Node2D) -> void:
 	nearby_object = body
@@ -72,3 +81,34 @@ func take_damage(amount: int) -> void:
 func die() -> void:
 	print("Player died!")
 	set_physics_process(false)
+
+
+func _on_hunger_timer_timeout() -> void:
+	hunger -= 5
+	hunger = max(hunger, 0)
+	
+	get_parent().update_hunger_bar(hunger)
+	
+	if hunger <= 5:
+		take_damage(5)
+		
+	print("Hunger: " , hunger)
+
+func eat() -> void:
+	if get_parent().resources["food"] <= 0:
+		print("No food!")
+		return
+
+	get_parent().resources["food"] -= 1
+
+	hunger += 20
+	hunger = min(hunger, max_hunger)
+
+	get_parent().update_hunger_bar(hunger)
+
+	print("Food eaten!")
+
+
+func _on_interaction_area_area_entered(area: Area2D) -> void:
+	nearby_object = area
+	print(nearby_object)

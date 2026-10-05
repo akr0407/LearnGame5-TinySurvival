@@ -2,14 +2,19 @@ extends Node2D
 
 @export var tree_scene: PackedScene
 @export var campfire_scene: PackedScene
+@export var food_scene: PackedScene
 
 var resources = {
 	"wood": 0,
 	"stone": 0,
-	"fiber": 0
+	"fiber": 0,
+	"food": 0
 }
-var tree_spawn_position = Vector2(200, 150)
+
+var day = 1
+
 var tree_respawn_positions = []
+var food_respawn_positions = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,6 +31,11 @@ func update_wood_label() -> void:
 func update_stone_label() -> void:
 	$UI/StoneLabel.text = "Stone: " + str(resources["stone"])
 
+func update_food_label() -> void:
+	$UI/FoodLabel.text = "Food: " + str(resources["food"])
+
+func update_day_label() -> void:
+	$UI/DayLabel.text = "Day: " + str(day)
 
 func _on_tree_spawn_timer_timeout() -> void:
 	var respawn_position = tree_respawn_positions.pop_front()
@@ -63,3 +73,25 @@ func _on_craft_button_pressed() -> void:
 
 func update_health_bar(current_health: int) -> void:
 	$UI/HealthBar.value = current_health
+	
+func update_hunger_bar(current_hunger: int) -> void:
+	$UI/HungerBar.value = current_hunger
+
+
+func _on_food_respawn_timer_timeout() -> void:
+	var respawn_position = food_respawn_positions.pop_front()
+
+	var food = food_scene.instantiate()
+	add_child(food)
+	food.position = respawn_position
+
+	if food_respawn_positions.size() > 0:
+		$FoodRespawnTimer.start()
+
+func respawn_food(spawn_position: Vector2) -> void:
+	food_respawn_positions.append(spawn_position)
+
+	if food_respawn_positions.size() > 0:
+		$FoodRespawnTimer.start()
+
+	print("Food respawn positions: ", food_respawn_positions)
