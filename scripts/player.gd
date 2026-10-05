@@ -84,7 +84,11 @@ func die() -> void:
 
 
 func _on_hunger_timer_timeout() -> void:
-	hunger -= 5
+	if get_parent().is_night:
+		hunger -= 10
+	else:
+		hunger -= 5
+		
 	hunger = max(hunger, 0)
 	
 	get_parent().update_hunger_bar(hunger)

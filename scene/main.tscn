@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://5opvdmwvi3kd" path="res://scene/campfire.tscn" id="3_4j5ol"]
 [ext_resource type="PackedScene" uid="uid://b3eq7grln7b2j" path="res://scene/tree.tscn" id="4_brvut"]
 [ext_resource type="PackedScene" uid="uid://bar18dfcfbt7b" path="res://scene/stone.tscn" id="5_0ha60"]
+[ext_resource type="PackedScene" uid="uid://bf6brb7xh1fxp" path="res://scene/enemy.tscn" id="5_of57s"]
 [ext_resource type="PackedScene" uid="uid://vtnadla0omuo" path="res://scene/food.tscn" id="7_p1hux"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
@@ -31,6 +32,7 @@ script = ExtResource("1_wp4xf")
 tree_scene = ExtResource("4_brvut")
 campfire_scene = ExtResource("3_4j5ol")
 food_scene = ExtResource("7_p1hux")
+enemy_scene = ExtResource("5_of57s")
 
 [node name="Ground" type="ColorRect" parent="." unique_id=1966740288]
 anchors_preset = 8
@@ -167,6 +169,12 @@ one_shot = true
 wait_time = 5.0
 autostart = true
 
+[node name="DayTimer" type="Timer" parent="." unique_id=1050200554]
+wait_time = 20.0
+autostart = true
+
+[node name="DayNightModulate" type="CanvasModulate" parent="." unique_id=1288620052]
+
 [connection signal="area_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_area_entered"]
 [connection signal="body_entered" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="Player/InteractionArea" to="Player" method="_on_interaction_area_body_exited"]
@@ -174,3 +182,4 @@ autostart = true
 [connection signal="timeout" from="TreeRespawnTimer" to="." method="_on_tree_spawn_timer_timeout"]
 [connection signal="timeout" from="FoodRespawnTimer" to="." method="_on_food_respawn_timer_timeout"]
 [connection signal="timeout" from="HungerTimer" to="Player" method="_on_hunger_timer_timeout"]
+[connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]

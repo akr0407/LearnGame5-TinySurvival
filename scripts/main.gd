@@ -3,6 +3,7 @@ extends Node2D
 @export var tree_scene: PackedScene
 @export var campfire_scene: PackedScene
 @export var food_scene: PackedScene
+@export var enemy_scene: PackedScene
 
 var resources = {
 	"wood": 0,
@@ -12,14 +13,15 @@ var resources = {
 }
 
 var day = 1
+var is_night =false
 
 var tree_respawn_positions = []
 var food_respawn_positions = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	update_day_label()
+	update_day_night_visual()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -35,7 +37,10 @@ func update_food_label() -> void:
 	$UI/FoodLabel.text = "Food: " + str(resources["food"])
 
 func update_day_label() -> void:
-	$UI/DayLabel.text = "Day: " + str(day)
+	if is_night:
+		$UI/DayLabel.text = "Day: " + str(day) + " - Night"
+	else:
+		$UI/DayLabel.text = "Day: " + str(day) + " - Day"
 
 func _on_tree_spawn_timer_timeout() -> void:
 	var respawn_position = tree_respawn_positions.pop_front()
@@ -95,3 +100,28 @@ func respawn_food(spawn_position: Vector2) -> void:
 		$FoodRespawnTimer.start()
 
 	print("Food respawn positions: ", food_respawn_positions)
+
+
+func _on_day_timer_timeout() -> void:
+	day += 1
+	is_night = !is_night
+
+	update_day_label()
+	update_day_night_visual()
+
+	if is_night:
+		print("Night")
+		spawn_enemy()
+	else:
+		print("Day")
+
+func update_day_night_visual() -> void:
+	if is_night:
+		$DayNightModulate.color = Color(0.4, 0.4, 0.6)
+	else:
+		$DayNightModulate.color = Color(1, 1, 1)
+
+func spawn_enemy() -> void:
+	var enemy = enemy_scene.instantiate()
+	add_child(enemy)
+	enemy.position = Vector2(600, 300)
