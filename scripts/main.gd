@@ -46,8 +46,8 @@ func _on_tree_spawn_timer_timeout() -> void:
 	var respawn_position = tree_respawn_positions.pop_front()
 	
 	var tree = tree_scene.instantiate()
-	add_child(tree)
 	tree.position = respawn_position
+	add_child(tree)
 
 	if tree_respawn_positions.size() > 0:
 		$TreeRespawnTimer.start()
@@ -87,8 +87,8 @@ func _on_food_respawn_timer_timeout() -> void:
 	var respawn_position = food_respawn_positions.pop_front()
 
 	var food = food_scene.instantiate()
-	add_child(food)
 	food.position = respawn_position
+	add_child(food)
 
 	if food_respawn_positions.size() > 0:
 		$FoodRespawnTimer.start()

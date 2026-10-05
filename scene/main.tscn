@@ -46,7 +46,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.39279988, 0.64731526, 0.7386301, 1)
 
-[node name="Player" type="CharacterBody2D" parent="." unique_id=1961410978]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1961410978 groups=["player"]]
 position = Vector2(400, 250)
 script = ExtResource("1_v0l8b")
 
