@@ -123,12 +123,23 @@ func update_day_night_visual() -> void:
 
 func spawn_enemy() -> void:
 	for i in range(3):
-		var enemy = enemy_scene.instantiate()
-
-		enemy.position = Vector2(
+		var spawn_position = Vector2(
 			randf_range(100, 700),
 			randf_range(100, 400)
 		)
+		
+		while spawn_position.distance_to($Player.global_position) < 150:
+			spawn_position = Vector2(
+				randf_range(100, 700),
+				randf_range(100, 400)
+			)
+
+		var distance = spawn_position.distance_to($Player.global_position)
+
+		print("Distance to player: ", distance)
+		
+		var enemy = enemy_scene.instantiate()
+		enemy.position = spawn_position
 
 		add_child(enemy)
 		active_enemies.append(enemy)
