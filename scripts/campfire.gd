@@ -14,10 +14,8 @@ func _process(_delta: float) -> void:
 func _on_warmth_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		body.near_campfire = true
-		print("Player is near campfire")
 
 
 func _on_warmth_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		body.near_campfire = false
-		print("Player left campfire")

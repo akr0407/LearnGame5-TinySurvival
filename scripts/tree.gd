@@ -18,6 +18,5 @@ func harvest() -> bool:
 		return false
 	
 	harvested = true
-	print("Tree harvested ", harvested)
 	queue_free()
 	return true

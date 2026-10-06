@@ -46,7 +46,6 @@ func _physics_process(_delta: float) -> void:
 	
 	if Input.is_action_just_pressed("interact"):
 		if nearby_object != null:
-			print("Interacting with ", nearby_object)
 			if nearby_object.harvest():
 				var resource_type = nearby_object.resource_type
 				
@@ -55,7 +54,6 @@ func _physics_process(_delta: float) -> void:
 				if resource_type == "wood":
 					get_parent().update_wood_label()
 					
-				print(resource_type, ": ", get_parent().resources[resource_type])
 				
 				if resource_type == "wood":
 					get_parent().respawn_tree(nearby_object.spawn_position)
@@ -69,13 +67,11 @@ func _physics_process(_delta: float) -> void:
 		
 func _on_interaction_area_body_entered(body: Node2D) -> void:
 	nearby_object = body
-	print(nearby_object)
 
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:
 	if nearby_object == body:
 		nearby_object = null
-		print(nearby_object)
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -83,13 +79,11 @@ func take_damage(amount: int) -> void:
 
 	get_parent().update_health_bar(health)
 
-	print("Health: ", health)
 
 	if health <= 0:
 		die()
 
 func die() -> void:
-	print("Player died!")
 	set_physics_process(false)
 	get_parent().show_game_over()
 
@@ -111,11 +105,9 @@ func _on_hunger_timer_timeout() -> void:
 	if hunger <= 0:
 		take_damage(5)
 
-	print("Hunger: ", hunger)
 
 func eat() -> void:
 	if get_parent().resources["food"] <= 0:
-		print("No food!")
 		return
 
 	get_parent().resources["food"] -= 1
@@ -125,12 +117,10 @@ func eat() -> void:
 
 	get_parent().update_hunger_bar(hunger)
 
-	print("Food eaten!")
 
 
 func _on_interaction_area_area_entered(area: Area2D) -> void:
 	nearby_object = area
-	print(nearby_object)
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:

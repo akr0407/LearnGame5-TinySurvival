@@ -17,6 +17,5 @@ func harvest() -> bool:
 		return false
 		
 	harvested = true
-	print("Stone harvested")
 	queue_free()
 	return true

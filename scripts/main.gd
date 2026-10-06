@@ -60,7 +60,6 @@ func respawn_tree(spawn_position: Vector2) -> void:
 	
 	if tree_respawn_positions.size() > 0:
 		$TreeRespawnTimer.start()
-		print("Respawn position: ", tree_respawn_positions)
 
 
 func _on_craft_button_pressed() -> void:
@@ -75,9 +74,8 @@ func _on_craft_button_pressed() -> void:
 		add_child(campfire)
 		campfire.global_position = $Player.global_position
 		
-		print("campfire created")
 	else:
-		print("not enough resources")
+		return
 
 func update_health_bar(current_health: int) -> void:
 	$UI/HealthBar.value = current_health
@@ -86,6 +84,7 @@ func update_hunger_bar(current_hunger: int) -> void:
 	$UI/HungerBar.value = current_hunger
 
 func show_game_over() -> void:
+	$DayTimer.stop()
 	$UI/GameOverPanel.visible = true
 
 func restart_game() -> void:
@@ -107,7 +106,6 @@ func respawn_food(spawn_position: Vector2) -> void:
 	if food_respawn_positions.size() > 0:
 		$FoodRespawnTimer.start()
 
-	print("Food respawn positions: ", food_respawn_positions)
 
 
 func _on_day_timer_timeout() -> void:
@@ -119,6 +117,7 @@ func _on_day_timer_timeout() -> void:
 
 	if day >= survival_goal:
 		game_completed = true
+		clear_enemies()
 		show_victory()
 		return
 
@@ -150,7 +149,6 @@ func spawn_enemy() -> void:
 
 		var distance = spawn_position.distance_to($Player.global_position)
 
-		print("Distance to player: ", distance)
 		
 		var enemy = enemy_scene.instantiate()
 		enemy.position = spawn_position
@@ -166,8 +164,6 @@ func _on_enemy_defeated(enemy) -> void:
 	resources["food"] += 1
 	update_food_label()
 
-	print("Enemy defeated!")
-	print("Active enemies: ", active_enemies.size())
 
 func clear_enemies() -> void:
 	for enemy in active_enemies:
@@ -180,4 +176,5 @@ func _on_restart_button_pressed() -> void:
 	restart_game()
 
 func show_victory() -> void:
+	$DayTimer.stop()
 	$UI/VictoryPanel.visible = true

@@ -19,6 +19,5 @@ func harvest() -> bool:
 		return false
 	
 	collected = true
-	print("Food collected")
 	queue_free()
 	return true
