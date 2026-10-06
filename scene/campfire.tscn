@@ -1,13 +1,26 @@
 [gd_scene format=3 uid="uid://5opvdmwvi3kd"]
 
 [ext_resource type="Texture2D" uid="uid://b6br1xc66gnxo" path="res://assets/objects.png" id="1_7l430"]
+[ext_resource type="Script" uid="uid://cj6qqsuxlen1a" path="res://scripts/campfire.gd" id="1_kii2r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hs3mr"]
 atlas = ExtResource("1_7l430")
 region = Rect2(160, 112, 32, 32)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hs3mr"]
+radius = 100.0
+
 [node name="Campfire" type="Node2D" unique_id=1153632573]
+script = ExtResource("1_kii2r")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=871783522]
 scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_hs3mr")
+
+[node name="WarmthArea" type="Area2D" parent="." unique_id=113633376]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WarmthArea" unique_id=518052932]
+shape = SubResource("CircleShape2D_hs3mr")
+
+[connection signal="body_entered" from="WarmthArea" to="." method="_on_warmth_area_body_entered"]
+[connection signal="body_exited" from="WarmthArea" to="." method="_on_warmth_area_body_exited"]

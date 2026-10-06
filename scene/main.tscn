@@ -169,6 +169,88 @@ offset_right = 544.0
 offset_bottom = 31.0
 text = "Day: 1"
 
+[node name="GameOverPanel" type="Panel" parent="UI" unique_id=659581540]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -124.0
+offset_right = 260.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverLabel" type="Label" parent="UI/GameOverPanel" unique_id=1471028354]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -43.5
+offset_top = 20.0
+offset_right = 43.5
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "Game Over"
+
+[node name="RestartButton" type="Button" parent="UI/GameOverPanel" unique_id=1299991169]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -15.5
+offset_right = 44.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"
+
+[node name="VictoryPanel" type="Panel" parent="UI" unique_id=939680801]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -272.0
+offset_top = -148.0
+offset_right = 272.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VictoryLabel" type="Label" parent="UI/VictoryPanel" unique_id=682236014]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.0
+offset_top = 20.0
+offset_right = 27.0
+offset_bottom = 43.0
+grow_horizontal = 2
+text = "YOU SURVIVED 5 DAYS"
+
+[node name="RestartButton2" type="Button" parent="UI/VictoryPanel" unique_id=1335684968]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -15.5
+offset_right = 44.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"
+
 [node name="TreeRespawnTimer" type="Timer" parent="." unique_id=534813527]
 wait_time = 5.0
 one_shot = true
@@ -182,7 +264,7 @@ wait_time = 5.0
 autostart = true
 
 [node name="DayTimer" type="Timer" parent="." unique_id=1050200554]
-wait_time = 5.0
+wait_time = 3.0
 autostart = true
 
 [node name="DayNightModulate" type="CanvasModulate" parent="." unique_id=1288620052]
@@ -193,6 +275,8 @@ autostart = true
 [connection signal="body_entered" from="Player/AttackArea" to="Player" method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="Player/AttackTimer" to="Player" method="_on_attack_timer_timeout"]
 [connection signal="pressed" from="UI/CraftButton" to="." method="_on_craft_button_pressed"]
+[connection signal="pressed" from="UI/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="UI/VictoryPanel/RestartButton2" to="." method="_on_restart_button_pressed"]
 [connection signal="timeout" from="TreeRespawnTimer" to="." method="_on_tree_spawn_timer_timeout"]
 [connection signal="timeout" from="FoodRespawnTimer" to="." method="_on_food_respawn_timer_timeout"]
 [connection signal="timeout" from="HungerTimer" to="Player" method="_on_hunger_timer_timeout"]

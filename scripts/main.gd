@@ -14,6 +14,8 @@ var resources = {
 
 var day = 1
 var is_night =false
+var survival_goal = 5
+var game_completed = false
 
 var tree_respawn_positions = []
 var food_respawn_positions = []
@@ -83,6 +85,11 @@ func update_health_bar(current_health: int) -> void:
 func update_hunger_bar(current_hunger: int) -> void:
 	$UI/HungerBar.value = current_hunger
 
+func show_game_over() -> void:
+	$UI/GameOverPanel.visible = true
+
+func restart_game() -> void:
+	get_tree().reload_current_scene()
 
 func _on_food_respawn_timer_timeout() -> void:
 	var respawn_position = food_respawn_positions.pop_front()
@@ -110,6 +117,11 @@ func _on_day_timer_timeout() -> void:
 	update_day_label()
 	update_day_night_visual()
 
+	if day >= survival_goal:
+		game_completed = true
+		show_victory()
+		return
+
 	if is_night:
 		spawn_enemy()
 	else:
@@ -122,7 +134,9 @@ func update_day_night_visual() -> void:
 		$DayNightModulate.color = Color(1, 1, 1)
 
 func spawn_enemy() -> void:
-	for i in range(3):
+	var enemy_count = day
+	
+	for i in range(enemy_count):
 		var spawn_position = Vector2(
 			randf_range(100, 700),
 			randf_range(100, 400)
@@ -160,3 +174,10 @@ func clear_enemies() -> void:
 		enemy.queue_free()
 
 	active_enemies.clear()
+
+
+func _on_restart_button_pressed() -> void:
+	restart_game()
+
+func show_victory() -> void:
+	$UI/VictoryPanel.visible = true

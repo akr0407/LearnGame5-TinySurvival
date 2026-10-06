@@ -11,10 +11,14 @@ func _ready() -> void:
 	add_to_group("enemy")
 	
 func _physics_process(_delta: float) -> void:
-	check_day_state()
-
 	var main = get_parent()
 
+	if main.game_completed:
+		velocity = Vector2.ZERO
+		return
+		
+	check_day_state()
+	
 	if not main.is_night:
 		velocity = Vector2.ZERO
 		return

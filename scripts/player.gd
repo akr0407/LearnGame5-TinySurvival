@@ -10,8 +10,13 @@ var health = 100
 var max_hunger = 100
 var hunger = 100
 var can_attack = true
+var near_campfire = false
 
 func _physics_process(_delta: float) -> void:
+	if get_parent().game_completed:
+		velocity = Vector2.ZERO
+		return
+	
 	var direction = Vector2.ZERO
 	
 	if Input.is_action_pressed("move_up"):
@@ -86,22 +91,27 @@ func take_damage(amount: int) -> void:
 func die() -> void:
 	print("Player died!")
 	set_physics_process(false)
+	get_parent().show_game_over()
 
 
 func _on_hunger_timer_timeout() -> void:
-	if get_parent().is_night:
+	if get_parent().game_completed:
+		return
+	
+	if near_campfire:
+		hunger -= 2
+	elif get_parent().is_night:
 		hunger -= 10
 	else:
 		hunger -= 5
-		
+
 	hunger = max(hunger, 0)
-	
 	get_parent().update_hunger_bar(hunger)
-	
-	if hunger <= 5:
+
+	if hunger <= 0:
 		take_damage(5)
-		
-	print("Hunger: " , hunger)
+
+	print("Hunger: ", hunger)
 
 func eat() -> void:
 	if get_parent().resources["food"] <= 0:
