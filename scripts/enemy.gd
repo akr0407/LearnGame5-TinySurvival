@@ -1,12 +1,14 @@
 extends CharacterBody2D
 
+signal defeated
+
 var health = 20
 var player_in_range = false
 
 const SPEED = 50.0
 
 func _ready() -> void:
-	pass
+	add_to_group("enemy")
 	
 func _physics_process(_delta: float) -> void:
 	check_day_state()
@@ -52,3 +54,12 @@ func _on_damage_timer_timeout() -> void:
 
 		if player != null:
 			player.take_damage(10)
+
+func take_damage(amount: int) -> void:
+	health -= amount
+
+	print("enemy health: ", health)
+
+	if health <= 0:
+		defeated.emit(self)
+		queue_free()

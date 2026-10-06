@@ -17,6 +17,7 @@ var is_night =false
 
 var tree_respawn_positions = []
 var food_respawn_positions = []
+var active_enemies = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -110,10 +111,9 @@ func _on_day_timer_timeout() -> void:
 	update_day_night_visual()
 
 	if is_night:
-		print("Night")
 		spawn_enemy()
 	else:
-		print("Day")
+		clear_enemies()
 
 func update_day_night_visual() -> void:
 	if is_night:
@@ -122,6 +122,30 @@ func update_day_night_visual() -> void:
 		$DayNightModulate.color = Color(1, 1, 1)
 
 func spawn_enemy() -> void:
-	var enemy = enemy_scene.instantiate()
-	add_child(enemy)
-	enemy.position = Vector2(600, 300)
+	for i in range(3):
+		var enemy = enemy_scene.instantiate()
+
+		enemy.position = Vector2(
+			randf_range(100, 700),
+			randf_range(100, 400)
+		)
+
+		add_child(enemy)
+		active_enemies.append(enemy)
+
+		enemy.defeated.connect(_on_enemy_defeated)
+
+func _on_enemy_defeated(enemy) -> void:
+	active_enemies.erase(enemy)
+
+	resources["food"] += 1
+	update_food_label()
+
+	print("Enemy defeated!")
+	print("Active enemies: ", active_enemies.size())
+
+func clear_enemies() -> void:
+	for enemy in active_enemies:
+		enemy.queue_free()
+
+	active_enemies.clear()

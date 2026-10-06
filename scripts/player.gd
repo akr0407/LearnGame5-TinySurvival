@@ -9,6 +9,7 @@ var max_health = 100
 var health = 100
 var max_hunger = 100
 var hunger = 100
+var can_attack = true
 
 func _physics_process(_delta: float) -> void:
 	var direction = Vector2.ZERO
@@ -33,6 +34,10 @@ func _physics_process(_delta: float) -> void:
 		
 	if Input.is_action_just_pressed("eat"):
 		eat()
+	
+	if Input.is_action_just_pressed("attack"):
+		if can_attack:
+			attack()
 	
 	if Input.is_action_just_pressed("interact"):
 		if nearby_object != null:
@@ -116,3 +121,23 @@ func eat() -> void:
 func _on_interaction_area_area_entered(area: Area2D) -> void:
 	nearby_object = area
 	print(nearby_object)
+
+
+func _on_attack_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemy"):
+		print("Enemy in attack range")
+	
+func attack() -> void:
+	can_attack = false
+
+	var enemies = $AttackArea.get_overlapping_bodies()
+
+	for enemy in enemies:
+		if enemy.is_in_group("enemy"):
+			enemy.take_damage(10)
+
+	$AttackTimer.start()
+
+
+func _on_attack_timer_timeout() -> void:
+	can_attack = true
